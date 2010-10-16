@@ -15,3 +15,12 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # (r'^admin/', include(admin.site.urls)),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
+         'django.views.static.serve',
+         {'document_root': settings.MEDIA_ROOT}),
+        (r'^404-error-page/$', direct_to_template, {'template': '404.html'}),
+        (r'^500-error-page/$', direct_to_template, {'template': '500.html'}),
+    )
