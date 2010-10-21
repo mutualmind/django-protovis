@@ -1,0 +1,10 @@
+<div>
+<script type="text/javascript" src="http://vis.stanford.edu/protovis/protovis-r3.2.js"></script> 
+<script type="text/javascript+protovis">
+var vis = new pv.Panel();
+{{ widget.init_js.src }}
+{% for fragment in widget.get_fragments %}{{ fragment.src }}{% endfor %}
+{% for mark in widget.get_marks %}{{ mark.render }}{% endfor %}
+vis.render();
+</script>
+</div>
