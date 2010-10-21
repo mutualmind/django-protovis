@@ -1,14 +1,13 @@
-import random
 from protovis.objects import ProtovisObjects, js
 from protovis.widgets import ProtovisPanelWidget
 
 class DemoChartWidget(ProtovisPanelWidget):
     pv_width = 400
     pv_height = 200
-    
+
     def __init__(self, *args, **kwargs):
         super(DemoChartWidget, self).__init__(*args, **kwargs)
-        
+
         # Protovis objects
         pv = ProtovisObjects()
 

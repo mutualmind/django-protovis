@@ -126,6 +126,6 @@ class ProtovisPanelWidget(ProtovisMark):
 
     def __unicode__(self):
         """
-        Make widget friendly to Django templates.
+        Make widgets friendly to Django templates.
         """
         return self.render()
