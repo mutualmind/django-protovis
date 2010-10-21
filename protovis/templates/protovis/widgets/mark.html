@@ -1,0 +1,3 @@
+var {{ obj_id }} = {{ parent_obj_id }}.add({{ widget.protovis_cls.src }});
+{% for fragment in widget.get_fragments %}{{ fragment.src }}{% endfor %}
+{% for mark in widget.get_marks %}{{ mark.render }}{% endfor %}
