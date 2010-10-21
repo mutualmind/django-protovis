@@ -30,8 +30,7 @@ class ProtovisEncoder(DjangoJSONEncoder):
                 obj = self.unescape_symbols[obj_id]
                 return obj.src
             except:
-                # simply return the match if there is a problem
                 return match.group(0)
         return unescape_pattern.sub(unescape, encoded)
 
-protovis_encoder = ProtovisEncoder()
+encoder = ProtovisEncoder()

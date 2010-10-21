@@ -3,67 +3,67 @@ from protovis.objects import ProtovisObjects, js
 from protovis.widgets import ProtovisPanelWidget
 
 class DemoChartWidget(ProtovisPanelWidget):
-    width = 640
-    height = 480
+    pv_width = 400
+    pv_height = 200
     
     def __init__(self, *args, **kwargs):
-        self.data = [
-            [ random.random() + 0.1 for j in range(4) ] for i in range(3)
-        ]
         super(DemoChartWidget, self).__init__(*args, **kwargs)
         
         # Protovis objects
         pv = ProtovisObjects()
 
+        # data generator
+        self.pv_data = js("""pv.range(0, 10, .1).map(function(x) {
+                return {x: x, y: Math.sin(x) + Math.random() * .5 + 2};
+            })""").src
+
         # sizing and scales
-        self.init_js = js(
+        self.pv_init_js = js(
             """
-            var data = %s;
-            var n = data.length;
-            var m = data[0].length;
-            var w = %i,
-                h = %i,
-                x = pv.Scale.linear(0, 1.1).range(0, w),
-                y = pv.Scale.ordinal(pv.range(n)).splitBanded(0, h, 4/5);
-            """ % (self.data, self.width, self.height)
+            var data = %(data)s;
+            var w = %(width)i;
+            var h = %(height)i;
+            var x = pv.Scale.linear(data, function(d) d.x).range(0, w);
+            var y = pv.Scale.linear(0, 4).range(0, h);            
+            """ % {
+                'data': self.pv_data,
+                'width': self.pv_width,
+                'height': self.pv_height,
+            }
         )
 
-        # init self after setting all the properties
-        self.init()
+        # root panel
+        self.width(js('w')) \
+            .height(js('h')) \
+            .bottom(20) \
+            .left(20) \
+            .right(10) \
+            .top(5)
 
-        # the bars
-        bar = self.add(pv.Panel) \
-            .data(js('data')) \
-            .top(js('function() y(this.index)')) \
-            .height(js('y.range().band')) \
-            .add(pv.Bar) \
-            .data(js('function(d) d')) \
-            .top(js('function() this.index * y.range().band / m')) \
-            .height(js('y.range().band / m')) \
-            .left(0) \
-            .width(js('x')) \
-            .fillStyle(js('pv.Colors.category20().by(pv.index)'))
-
-        # the value label
-        bar.add(pv.Label) \
-            .textStyle('white') \
-            .text(js('function(d) d.toFixed(1)')) \
-            .anchor('right')
-
-        # The variable label
-        bar.add(pv.Label) \
-            .textAlign('right') \
-            .textMargin(5) \
-            .text(js('function() "ABCDEFGHIJK".charAt(this.parent.index)')) \
-            .anchor('left')
-
-        # X-axis ticks.
+        # y-axis and ticks
         self.add(pv.Rule) \
-            .data(js('x.ticks(5)')) \
+            .data(js('y.ticks(5)')) \
+            .bottom(js('y')) \
+            .strokeStyle(js('function(d) d ? pv.Color.Rgb(200,200,200) : pv.Color.Rgb(0,0,0)')) \
+            .anchor('left').add(pv.Label) \
+            .text(js('y.tickFormat'))
+
+        # x-axis and ticks
+        self.add(pv.Rule) \
+            .data(js('x.ticks()')) \
+            .visible(js('function(d) d')) \
             .left(js('x')) \
-            .strokeStyle(js('function(d) d ? "rgba(255,255,255,.3)" : "#000"'))\
-            .add(pv.Rule) \
-            .bottom(0) \
+            .bottom(-5) \
             .height(5) \
-            .strokeStyle('#000') \
-            .anchor('bottom')
+            .anchor('bottom').add(pv.Label) \
+            .text(js('x.tickFormat'))
+
+        # the area with top line
+        self.add(pv.Area) \
+            .data(js('data')) \
+            .bottom(1) \
+            .left(js('function(d) x(d.x)')) \
+            .height(js('function(d) y(d.y)')) \
+            .fillStyle(js('pv.Color.Rgb(121,173,210)')) \
+            .anchor('top').add(pv.Line) \
+            .lineWidth(3)

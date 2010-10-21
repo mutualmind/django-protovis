@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 
 urlpatterns = patterns('',
-    (r'^$', 'test_project.views.gallery'),
+    (r'^$', 'test_project.views.demo'),
 )
 
 if settings.DEBUG:

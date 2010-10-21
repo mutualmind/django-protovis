@@ -1,6 +1,15 @@
-from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+
 from protovis.charts.demo import DemoChartWidget
 
-def gallery(request):
+def demo(request):
     chart = DemoChartWidget()
-    return HttpResponse(chart.render())
+    
+    template = 'protovis/chart.html'
+    data = {
+        'chart': chart,
+    }
+    
+    return render_to_response( template, data,
+                               context_instance = RequestContext( request ) )
