@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-
 from protovis.charts.demo import DemoChartWidget
 
 def demo(request):
