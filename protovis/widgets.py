@@ -47,7 +47,8 @@ class ProtovisMark(object):
         """
         class MarkWrapper(ProtovisMark):
             def __getattr__(self, name):
-                return self.mark.fragment_closure('%s.%s' % (self.pre, name))
+                new_name = '%s.%s' % (self.pre, name)
+                return self.mark.fragment_closure(new_name)
 
         # handle special cases
         if name in ['label', 'layer', 'link', 'node', '_parent']:
@@ -71,7 +72,8 @@ class ProtovisMark(object):
                 m = ProtovisMark(
                     pv_class = args[0],
                     pv_obj_id = pv_obj_id,
-                    pv_parent_obj_id = self.pv_obj_id
+                    pv_parent_obj_id = self.pv_obj_id,
+                    pv_add_method = name
                 )
 
                 # add it to the list of marks

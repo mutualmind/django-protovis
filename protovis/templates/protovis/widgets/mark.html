@@ -1,4 +1,4 @@
-var {{ w.pv_obj_id }} = {{ w.pv_parent_obj_id }}.add({{ w.pv_class.src }})
+var {{ w.pv_obj_id }} = {{ w.pv_parent_obj_id }}.{{ w.pv_add_method|safe }}({{ w.pv_class.src }})
     {% for f in w.get_fragments %}{{ f.src|safe }}{% if forloop.last %};{% endif %}
     {% endfor %}
 {% for m in w.get_marks %}{{ m.render }}{% endfor %}
