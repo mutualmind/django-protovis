@@ -14,8 +14,8 @@ class ProtovisMark(object):
 
     def __init__(self, **kwargs):
         """
-        Constructor which simply takes the kwargs
-        and sets the key/value pairs as class properties.
+        Constructor. It also takes any kwargs passed to it
+        and sets its key/value pairs as class properties.
         """
         self.__fragments = []
         self.__marks = []
@@ -99,8 +99,8 @@ class ProtovisMark(object):
         Attach fragment closure function to __getattr__.
         """
         if name.startswith('pv_'):
-            # if name begins with 'pv_', then just
-            # return it as usual and don't pass it
+            # if attribute name begins with 'pv_', then just
+            # return the attribute as usual and don't pass it
             # to the fragment closure function
             return object.__getattribute__(self, name)
         else:

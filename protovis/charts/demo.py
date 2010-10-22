@@ -1,3 +1,5 @@
+import math
+import random
 from protovis.objects import ProtovisObjects, js
 from protovis.widgets import ProtovisPanelWidget
 
@@ -12,9 +14,16 @@ class DemoChartWidget(ProtovisPanelWidget):
         pv = ProtovisObjects()
 
         # data generator
+        # TODO: figure out how to encode stuff with quotes so that it can
+        # be rendered as JavaScript properly in the template
+        #
+        # self.pv_data = [
+        #     {'x': x / 10.0, 'y': math.sin(x / 10) + random.random() * 0.5 + 2}
+        #     for x in range(0, 100)
+        # ]
         self.pv_data = js("""pv.range(0, 10, .1).map(function(x) {
                 return {x: x, y: Math.sin(x) + Math.random() * .5 + 2};
-            })""").src
+            });""").src
 
         # sizing and scales
         self.pv_init_js = js(
@@ -45,7 +54,7 @@ class DemoChartWidget(ProtovisPanelWidget):
             .bottom(js('y')) \
             .strokeStyle(js('function(d) d ? pv.Color.Rgb(200,200,200) : pv.Color.Rgb(0,0,0)')) \
             .anchor('left').add(pv.Label) \
-            .text(js('y.tickFormat'))
+                .text(js('y.tickFormat'))
 
         # x-axis and ticks
         self.add(pv.Rule) \
@@ -55,7 +64,7 @@ class DemoChartWidget(ProtovisPanelWidget):
             .bottom(-5) \
             .height(5) \
             .anchor('bottom').add(pv.Label) \
-            .text(js('x.tickFormat'))
+                .text(js('x.tickFormat'))
 
         # the area with top line
         self.add(pv.Area) \
@@ -65,4 +74,4 @@ class DemoChartWidget(ProtovisPanelWidget):
             .height(js('function(d) y(d.y)')) \
             .fillStyle(js('pv.Color.Rgb(121,173,210)')) \
             .anchor('top').add(pv.Line) \
-            .lineWidth(3)
+                .lineWidth(3)
