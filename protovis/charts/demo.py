@@ -66,6 +66,6 @@ class DemoChartWidget(ProtovisPanelWidget):
             .bottom(1) \
             .left(js('function(d) x(d.x)')) \
             .height(js('function(d) y(d.y)')) \
-            .fillStyle(js('pv.Color.Rgb(121,173,210)')) \
+            .fillStyle('rgb(121,173,210)') \
             .anchor('top').add(pv.Line) \
                 .lineWidth(3)
