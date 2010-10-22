@@ -118,13 +118,18 @@ class ProtovisPanelWidget(ProtovisMark):
     pv_class = ProtovisObjects().Panel
     pv_template = 'protovis/widgets/widget.html'
 
-    # widget data, width and height
-    pv_data = []
-    pv_width = 0
-    pv_height = 0
-
     # JavaScript fragment used for initializing stuff
     pv_init_js = JavaScriptFragment(src = '')
+
+    def __init__(self, width, height, data, **kwargs):
+        super(ProtovisPanelWidget, self).__init__(**kwargs)
+        
+        self.pv_width = width
+        self.pv_height = height
+        self.pv_data = data
+        
+        # Protovis objects
+        self.pv = ProtovisObjects()
 
     def __unicode__(self):
         """
