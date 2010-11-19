@@ -1,7 +1,7 @@
 import uuid
 from django.template.loader import render_to_string
-from protovis.encoders import encoder
-from protovis.objects import ProtovisObjects, JavaScriptFragment
+from protovis.core.encoders import encoder
+from protovis.core.objects import ProtovisObjects, JavaScriptFragment
 
 class ProtovisMark(object):
     """

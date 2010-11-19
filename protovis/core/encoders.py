@@ -1,6 +1,6 @@
 import re
 from django.core.serializers.json import DjangoJSONEncoder
-from protovis.objects import JavaScriptFragment
+from protovis.core.objects import JavaScriptFragment
 
 class ProtovisEncoder(DjangoJSONEncoder):
     def __init__(self, *args, **kwargs):
