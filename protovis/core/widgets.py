@@ -1,7 +1,7 @@
 import uuid
 from django.template.loader import render_to_string
 from protovis.core.encoders import encoder
-from protovis.core.objects import ProtovisObjects, JavaScriptFragment
+from protovis.core.objects import ProtovisObjects as pv, JavaScriptFragment
 
 class ProtovisMark(object):
     """
@@ -109,30 +109,17 @@ class ProtovisMark(object):
             return self.fragment_closure(name)
 
 
-class ProtovisPanelWidget(ProtovisMark):
+class ProtovisPanel(ProtovisMark):
     """
     Protovis panel widget.
     """
     pv_obj_id = 'vis'
     pv_parent_obj_id = None
-    pv_class = ProtovisObjects().Panel
+    pv_class = pv.Panel
     pv_template = 'protovis/widgets/widget.html'
 
     # JavaScript fragment used for initializing stuff
     pv_init_js = JavaScriptFragment(src = '')
 
-    def __init__(self, width, height, data, **kwargs):
-        super(ProtovisPanelWidget, self).__init__(**kwargs)
-        
-        self.pv_width = width
-        self.pv_height = height
-        self.pv_data = data
-        
-        # Protovis objects
-        self.pv = ProtovisObjects()
-
-    def __unicode__(self):
-        """
-        Make widgets friendly to Django templates.
-        """
-        return self.render()
+    def __init__(self, *args, **kwargs):
+        super(ProtovisPanel, self).__init__(**kwargs)
